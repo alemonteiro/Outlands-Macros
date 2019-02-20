@@ -38,6 +38,11 @@ if not @findobject "Pet"
   headmsg "Select your tank pet"
   promptalias 'Pet'
 endif
+//Set your second pet to heal
+if not @findobject "Pet"
+  headmsg "Select your second tank pet"
+  promptalias 'Pet2'
+endif
 //Unlock animal taming
 if skillstate 'Animal Taming' == 'locked'
   setskill 'Animal Taming' 'up'
@@ -71,10 +76,14 @@ if @findobject 'TameTarget' 'any' 'world' 'any' '6'
         settimer 'taming_t' 0
       endif
       //heal your pet 2x while you tame
-      if diffhits 'Pet' >= 1 and timer 'vet_t' >= 8000
+      if ( diffhits 'Pet' >= 30 or diffhits 'Pet2' >= 30 ) and timer 'vet_t' >= 8000
         usetype "0xe21"
         waitfortarget 15000
+		if diffhits 'Pet' > diffhits 'Pet2'
         target! "Pet"
+		else
+		target! "Pet2"
+		endif
         settimer 'vet_t' 0
       endif
       //pause here to slow down the looping
@@ -108,12 +117,16 @@ if followers > 3
   target! "TameTarget"
   //heal your pet while it kills the released tame
   while @findobject "TameTarget"
-    if diffhits 'Pet' >= 1 and timer 'vet_t' >= 8000
-      usetype "0xe21"
-      waitfortarget 15000
-      target! "Pet"
-      settimer 'vet_t' 0
-    endif
+    if ( diffhits 'Pet' >= 30 or diffhits 'Pet2' >= 30 ) and timer 'vet_t' >= 8000
+        usetype "0xe21"
+        waitfortarget 15000
+		if diffhits 'Pet' > diffhits 'Pet2'
+        target! "Pet"
+		else
+		target! "Pet2"
+		endif
+        settimer 'vet_t' 0
+      endif
   endwhile
   //Clear Tame Target
   @unsetalias "TameTarget"
@@ -137,12 +150,16 @@ if @injournal "You have already received the maximum" "system"
   target! "TameTarget"
   //heal your pet while it kills the released tame
   while @findobject "TameTarget"
-    if diffhits 'Pet' >= 1 and timer 'vet_t' >= 8000
-      usetype "0xe21"
-      waitfortarget 15000
-      target! "Pet"
-      settimer 'vet_t' 0
-    endif
+    if ( diffhits 'Pet' >= 30 or diffhits 'Pet2' >= 30 ) and timer 'vet_t' >= 8000
+        usetype "0xe21"
+        waitfortarget 15000
+		if diffhits 'Pet' > diffhits 'Pet2'
+        target! "Pet"
+		else
+		target! "Pet2"
+		endif
+        settimer 'vet_t' 0
+      endif
   endwhile
   //Clear Tame Target
   @unsetalias "TameTarget"
